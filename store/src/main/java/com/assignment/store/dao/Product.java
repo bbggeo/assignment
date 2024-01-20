@@ -10,9 +10,6 @@ import java.math.BigDecimal;
 
 @Data
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
 
     @Column(name = "TYPE")
     protected String type;
@@ -38,5 +35,5 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="SUPPLIER_ID", nullable=false)
     protected Supplier supplier;
-    
+
 }

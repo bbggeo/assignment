@@ -1,18 +1,16 @@
 package com.assignment.store.dao.thirdparty;
 
-import com.assignment.store.dao.Product;
+import com.assignment.store.dao.Accessory;
+import com.assignment.store.dao.ClothingApparel;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @Table(name = "SUPPLIER")
+@Entity
 public class Supplier {
 
     @Id
@@ -30,6 +28,9 @@ public class Supplier {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id")
-    private List<Product> products = new ArrayList<>();
+    private List<ClothingApparel> clothingApparelList = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id")
+    private List<Accessory> accessoryList = new ArrayList<>();
 }

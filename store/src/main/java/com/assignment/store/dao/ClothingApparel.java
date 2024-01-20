@@ -7,7 +7,12 @@ import java.math.BigDecimal;
 
 @Data
 @Table(name = "CLOTHING")
+@Entity
 public class ClothingApparel extends Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id;
 
     @Column(name = "COLOR")
     private String color;

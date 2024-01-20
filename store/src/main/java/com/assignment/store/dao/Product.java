@@ -9,26 +9,26 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
     @Column(name = "TYPE")
-    private String type;
+    protected String type;
 
     @Column(name = "NAME")
-    private String name;
+    protected String name;
 
     @Column(name = "PRICE")
-    private BigDecimal price;
+    protected BigDecimal price;
 
     @Column(name = "MATERIAL_ID")
-    private Long materialId;
+    protected Long materialId;
 
     @Column(name = "DISCOUNT")
-    private BigDecimal discount;
+    protected BigDecimal discount;
 
     @Column(name = "STOCK")
-    private Integer stock;
+    protected Integer stock;
 
     @Column(name = "SUPPLIER_ID")
-    private Long supplierId;
+    protected Long supplierId;
 }

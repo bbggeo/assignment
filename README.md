@@ -1,0 +1,2 @@
+# ingassignment
+Store manager API

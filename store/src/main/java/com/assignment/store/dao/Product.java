@@ -1,7 +1,10 @@
 package com.assignment.store.dao;
 
+import com.assignment.store.dao.thirdparty.Supplier;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -31,4 +34,9 @@ public class Product {
 
     @Column(name = "SUPPLIER_ID")
     protected Long supplierId;
+
+    @ManyToOne
+    @JoinColumn(name="SUPPLIER_ID", nullable=false)
+    protected Supplier supplier;
+    
 }

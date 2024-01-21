@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 public class ClothingApparel extends Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCESSORY_SEQ")
+    @SequenceGenerator(name = "ACCESSORY_SEQ", sequenceName = "ACCESSORY_SEQ", allocationSize = 1)
     protected Long id;
 
     @Column(name = "COLOR")

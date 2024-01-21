@@ -1,10 +1,10 @@
 package com.assignment.store.dao;
 
 import com.assignment.store.dao.thirdparty.Supplier;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 

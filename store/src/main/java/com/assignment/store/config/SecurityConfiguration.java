@@ -26,7 +26,6 @@ public class SecurityConfiguration
 
     @Bean
     public UserDetailsService userDetailsService() throws Exception {
-        // ensure the passwords are encoded properly
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(users.username("user").password("password").roles("USER").build());
@@ -39,18 +38,7 @@ public class SecurityConfiguration
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 
        http.securityMatcher("/h2-console/**").authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-
                 .httpBasic(withDefaults());
-        return http.build();
-    }
-
-    @Bean
-    public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                )
-                .formLogin(withDefaults());
         return http.build();
     }
 

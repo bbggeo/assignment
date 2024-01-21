@@ -6,13 +6,14 @@ import java.math.BigDecimal;
 
 @Data
 public class ProductDTO {
-    private Long id;
-    private String type;
-    private String name;
-    private BigDecimal price;
-    private String material;
-    private String materialDescription;
-    private BigDecimal discount;
-    private Integer stock;
-    private String supplier;
+    protected Long id;
+    protected String type;
+    protected String name;
+    protected BigDecimal price;
+    protected Long materialId;
+    protected String material;
+    protected String materialDescription;
+    protected BigDecimal discount;
+    protected Integer stock;
+    protected String supplier;
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 public class Accessory extends Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCESSORY_SEQ")
+    @SequenceGenerator(name = "ACCESSORY_SEQ", sequenceName = "ACCESSORY_SEQ", allocationSize = 1)
     protected Long id;
 }

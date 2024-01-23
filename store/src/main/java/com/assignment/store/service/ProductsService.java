@@ -6,8 +6,11 @@ import com.assignment.store.dao.Product;
 import com.assignment.store.dao.thirdparty.Supplier;
 import com.assignment.store.repository.AccessoryRepository;
 import com.assignment.store.repository.ClothingApparelRepository;
+import com.assignment.store.util.enums.ProductType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ProductsService {
@@ -30,5 +33,9 @@ public class ProductsService {
             default -> throw new RuntimeException();
         }
         return savedProduct;
+    }
+
+    public List<ClothingApparel> searchClothing(ProductType type) {
+        return clothingRepository.findByType(type);
     }
 }

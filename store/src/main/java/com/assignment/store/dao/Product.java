@@ -1,18 +1,19 @@
 package com.assignment.store.dao;
 
 import com.assignment.store.dao.thirdparty.Supplier;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.assignment.store.util.enums.ProductType;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@MappedSuperclass
 public class Product {
 
     @Column(name = "TYPE")
-    protected String type;
+    @Enumerated(EnumType.STRING)
+    protected ProductType type;
 
     @Column(name = "NAME")
     protected String name;
@@ -29,11 +30,11 @@ public class Product {
     @Column(name = "STOCK")
     protected Integer stock;
 
-    @Column(name = "SUPPLIER_ID")
+    @Column(name = "SUPPLIER_ID", insertable=false, updatable=false, nullable=false)
     protected Long supplierId;
 
     @ManyToOne
-    @JoinColumn(name="SUPPLIER_ID", nullable=false)
+    @JoinColumn(name="SUPPLIER_ID")
     protected Supplier supplier;
 
 }

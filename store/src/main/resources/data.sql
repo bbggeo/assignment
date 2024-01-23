@@ -1,4 +1,3 @@
-CREATE SEQUENCE SUPPLIER_SEQ start with 1 increment by 1 minvalue 0 maxvalue 1000 nocycle;
 CREATE TABLE SUPPLIER (
 ID INTEGER PRIMARY KEY AUTO_INCREMENT,
 NAME NVARCHAR2(200) NOT NULL,
@@ -10,8 +9,8 @@ INSERT INTO SUPPLIER (NAME, EMAIL, PARTNERSHIP_VALID) VALUES ('Zara', 'zara@mail
 INSERT INTO SUPPLIER (NAME, EMAIL, PARTNERSHIP_VALID) VALUES ('Pull&Bear', 'pb@mail.com', 0);
 INSERT INTO SUPPLIER (NAME, EMAIL, PARTNERSHIP_VALID) VALUES ('H&M', 'hm@mail.com', 1);
 INSERT INTO SUPPLIER (NAME, EMAIL, PARTNERSHIP_VALID) VALUES ('4F', '4f@mail.com', 1);
+CREATE SEQUENCE SUPPLIER_SEQ start with (select count(*) FROM SUPPLIER) + 1 increment by 1 minvalue 0 maxvalue 1000 nocycle;
 
-CREATE SEQUENCE MATERIAL_SEQ start with 1 increment by 1 minvalue 0 maxvalue 1000 nocycle;
 CREATE TABLE MATERIAL (
 ID INTEGER PRIMARY KEY AUTO_INCREMENT,
 NAME NVARCHAR2(100) NOT NULL,
@@ -22,8 +21,8 @@ INSERT INTO MATERIAL (NAME, DESCRIPTION) VALUES ('Cotton', 'Cotton fibers are na
 INSERT INTO MATERIAL (NAME, DESCRIPTION) VALUES ('Flax linen', 'Linen comes from the cellulose-based fibers of the flax plant that are hypoallergenic, moisture-resistant and breathable. ');
 INSERT INTO MATERIAL (NAME, DESCRIPTION) VALUES ('Gold', 'Resistant to attack by air, heat, moisture and most solvents.');
 INSERT INTO MATERIAL (NAME, DESCRIPTION) VALUES ('Silver', 'Resistant to attack by air, heat, moisture and most solvents.');
+CREATE SEQUENCE MATERIAL_SEQ start with (select count(*) FROM MATERIAL) + 1 increment by 1 minvalue 0 maxvalue 1000 nocycle;
 
-CREATE SEQUENCE CLOTHING_SEQ start with 1 increment by 1 minvalue 0 maxvalue 1000 nocycle;
 CREATE TABLE CLOTHING (
 ID INTEGER PRIMARY KEY AUTO_INCREMENT,
 TYPE NVARCHAR2(50),
@@ -47,8 +46,8 @@ INSERT INTO CLOTHING (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, COLOR, STOCK, EU
 INSERT INTO CLOTHING (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, COLOR, STOCK, EU_SIZE, SUPPLIER_ID) VALUES ('Jeans', 'Mom jeans', 17.99, 3, null, 'Black', 0, 'M', 1);
 INSERT INTO CLOTHING (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, COLOR, STOCK, EU_SIZE, SUPPLIER_ID) VALUES ('Jeans', 'Mom jeans', 19.99, 2, null, 'Black', 1, 'S', 1);
 INSERT INTO CLOTHING (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, COLOR, STOCK, EU_SIZE, SUPPLIER_ID) VALUES ('Jeans', 'Crop J', 51.99, 1, 20, 'Black', 23, 'M', 1);
+CREATE SEQUENCE CLOTHING_SEQ start with (select count(*) FROM CLOTHING) + 1  increment by 1 minvalue 0 maxvalue 1000 nocycle;
 
-CREATE SEQUENCE ACCESSORY_SEQ start with 1 increment by 1 minvalue 0 maxvalue 1000 nocycle;
 CREATE TABLE ACCESSORY (
 ID INTEGER PRIMARY KEY AUTO_INCREMENT,
 TYPE NVARCHAR2(50),
@@ -64,3 +63,4 @@ INSERT INTO ACCESSORY (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, STOCK, SUPPLIER
 INSERT INTO ACCESSORY (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, STOCK, SUPPLIER_ID) VALUES ('Ring', 'Emerald', 61.99, 4, 10, 23, 3);
 INSERT INTO ACCESSORY (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, STOCK, SUPPLIER_ID) VALUES ('Earrings', 'Lord''s', 71.99, 4, 10, 23, 3);
 INSERT INTO ACCESSORY (TYPE, NAME, PRICE, MATERIAL_ID, DISCOUNT, STOCK, SUPPLIER_ID) VALUES ('Earrings', 'Emerald', 91.99, 4, 10, 23, 3);
+CREATE SEQUENCE ACCESSORY_SEQ start with (select count(*) FROM ACCESSORY) + 1  increment by 1 minvalue 0 maxvalue 1000 nocycle;

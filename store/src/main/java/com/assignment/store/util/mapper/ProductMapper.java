@@ -34,18 +34,25 @@ public class ProductMapper {
     }
 
     public static ProductDTO mapClothingApparelToProductDTO(ModelMapper mapper, ClothingApparel clothingApparel) {
-        TypeMap<ClothingApparel, ProductDTO> clothingMap = mapper.createTypeMap(ClothingApparel.class, ProductDTO.class);
-        clothingMap.addMappings(mapping -> {
-            mapping.map(productSrc -> productSrc.getSupplier().getName(), ProductDTO::setSupplier);
-        });
+        if(mapper.getTypeMap(ClothingApparel.class, ProductDTO.class) == null) {
+            TypeMap<ClothingApparel, ProductDTO> clothingMap = mapper.createTypeMap(ClothingApparel.class, ProductDTO.class);
+            clothingMap.addMappings(mapping -> {
+                mapping.map(productSrc -> productSrc.getSupplier().getName(), ProductDTO::setSupplier);
+                mapping.map(productSrc -> productSrc.getMaterial().getName(), ProductDTO::setMaterial);
+                mapping.map(productSrc -> productSrc.getMaterial().getDescription(), ProductDTO::setMaterialDescription);
+
+            });
+        }
         return mapper.map(clothingApparel, ProductDTO.class);
     }
 
     private static ProductDTO mapAccessoryToProductDTO(ModelMapper mapper, Accessory accessory) {
-        TypeMap<Accessory, ProductDTO> clothingMap = mapper.createTypeMap(Accessory.class, ProductDTO.class);
-        clothingMap.addMappings(mapping -> {
-            mapping.map(productSrc -> productSrc.getSupplier().getName(), ProductDTO::setSupplier);
-        });
+        if (mapper.getTypeMap(Accessory.class, ProductDTO.class) == null) {
+            TypeMap<Accessory, ProductDTO> clothingMap = mapper.createTypeMap(Accessory.class, ProductDTO.class);
+            clothingMap.addMappings(mapping -> {
+                mapping.map(productSrc -> productSrc.getSupplier().getName(), ProductDTO::setSupplier);
+            });
+        }
         return mapper.map(accessory, ProductDTO.class);
     }
 }

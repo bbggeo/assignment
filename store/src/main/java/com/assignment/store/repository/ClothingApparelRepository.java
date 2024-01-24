@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ClothingApparelRepository extends JpaRepository<ClothingApparel, Long> {
     List<ClothingApparel> findByType(ProductType type);
+
+    List<ClothingApparel> findByName(String name);
 }

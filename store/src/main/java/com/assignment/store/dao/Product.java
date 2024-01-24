@@ -1,6 +1,8 @@
 package com.assignment.store.dao;
 
+import com.assignment.store.dao.staticdata.Material;
 import com.assignment.store.dao.thirdparty.Supplier;
+import com.assignment.store.util.converters.ProductTypeConverter;
 import com.assignment.store.util.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +14,7 @@ import java.math.BigDecimal;
 public class Product {
 
     @Column(name = "TYPE")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = ProductTypeConverter.class)
     protected ProductType type;
 
     @Column(name = "NAME")
@@ -21,7 +23,7 @@ public class Product {
     @Column(name = "PRICE")
     protected BigDecimal price;
 
-    @Column(name = "MATERIAL_ID")
+    @Column(name = "MATERIAL_ID", insertable=false, updatable=false, nullable=false)
     protected Long materialId;
 
     @Column(name = "DISCOUNT")
@@ -36,5 +38,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="SUPPLIER_ID")
     protected Supplier supplier;
+
+    @ManyToOne
+    @JoinColumn(name="MATERIAL_ID")
+    protected Material material;
 
 }

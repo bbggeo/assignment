@@ -1,7 +1,12 @@
 package com.assignment.store.dao.staticdata;
 
+import com.assignment.store.dao.Accessory;
+import com.assignment.store.dao.ClothingApparel;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Table(name = "MATERIAL")
@@ -19,4 +24,11 @@ public class Material {
     @Column(name = "DESCRIPTION")
     protected String description;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id")
+    private List<ClothingApparel> clothingApparelList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id")
+    private List<Accessory> accessoryList = new ArrayList<>();
 }

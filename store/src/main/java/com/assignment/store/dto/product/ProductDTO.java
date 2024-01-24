@@ -12,7 +12,6 @@ public class ProductDTO {
     protected String type;
     protected String name;
     protected BigDecimal price;
-    protected Long materialId;
     protected String material;
     protected String materialDescription;
     protected BigDecimal discount;

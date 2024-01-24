@@ -18,7 +18,6 @@ public class ProductsController {
     @Autowired
     private ProductsCompositeService productsCompositeService;
 
-    @ExceptionHandler({FieldValidationException.class})
     @PostMapping(value = "/clothing")
     public ProductDTO saveClothingApparel(@RequestBody ClothingApparelDTO clothingApparelDTO) {
         return productsCompositeService.saveProduct(clothingApparelDTO);

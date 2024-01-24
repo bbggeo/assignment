@@ -62,11 +62,9 @@ public class ProductsCompositeService {
         productValidator.validate(productDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             log.error("Validation failed for " + productDTO.getClass().getName());
-            String errorMessage = "The following validation rules failed: \n";
+            String errorMessage = "The following validation rules failed: ";
             for (ObjectError err : bindingResult.getAllErrors()) {
-                for (String code : err.getCodes()) {
-                    errorMessage = errorMessage.concat(code + "\n");
-                }
+                    errorMessage = errorMessage.concat(err.getCode() + ". ");
             }
             log.error(errorMessage);
             throw new FieldValidationException(errorMessage);

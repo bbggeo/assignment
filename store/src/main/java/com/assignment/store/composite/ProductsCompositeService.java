@@ -11,16 +11,13 @@ import com.assignment.store.util.enums.ProductType;
 import com.assignment.store.util.mapper.ProductMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class ProductsCompositeService {
     @Autowired
     private ProductsService productsService;
-
 
     @Autowired
     private SupplierService supplierService;
@@ -33,19 +30,19 @@ public class ProductsCompositeService {
         return ProductMapper.mapToProductDto(productsService.saveProduct(toSave));
     }
 
-    public List<ProductDTO> getProducts(Integer pageNo, Integer pageSize, ProductType type) throws Exception {
-        List<? extends Product> products = new ArrayList<>();
-        List<ProductDTO> retrievedItems = new ArrayList<>();
+    public Page<ProductDTO> getProducts(Integer pageNo, Integer pageSize, ProductType type) throws Exception {
+        Page<?> products;
+        Page<ProductDTO> entities = null;
         ModelMapper mapper = new ModelMapper();
 
         if (type.getCorrespondingClass().equals(ClothingApparel.class)) {
             products = productsService.searchClothing(type, pageNo, pageSize);
-            products.forEach(product -> retrievedItems.add(ProductMapper.mapClothingApparelToProductDTO(mapper, (ClothingApparel) product)));
+            entities = products.map(prod -> ProductMapper.mapClothingApparelToProductDTO(mapper, (ClothingApparel) prod));
         } else if (type.getCorrespondingClass().equals(Accessory.class)) {
 
         } else {
             throw new Exception();
         }
-        return retrievedItems;
+        return entities;
     }
 }

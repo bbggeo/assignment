@@ -7,6 +7,7 @@ import com.assignment.store.repository.AccessoryRepository;
 import com.assignment.store.repository.ClothingApparelRepository;
 import com.assignment.store.util.enums.ProductType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,7 +38,7 @@ public class ProductsService {
         return savedProduct;
     }
 
-    public List<ClothingApparel> searchClothing(ProductType type, Integer pageNumber, Integer pageSize) {
+    public Page<ClothingApparel> searchClothing(ProductType type, Integer pageNumber, Integer pageSize) {
         // start index is 0 for page number
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("name").ascending());
         return clothingRepository.findByType(type, pageable);

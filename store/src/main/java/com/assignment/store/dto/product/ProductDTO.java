@@ -1,5 +1,6 @@
 package com.assignment.store.dto.product;
 
+import com.assignment.store.util.enums.ProductType;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
@@ -18,4 +19,6 @@ public class ProductDTO {
     protected BigDecimal discount;
     protected Integer stock;
     protected String supplier;
+    protected String color;
+    protected String euSize;
 }

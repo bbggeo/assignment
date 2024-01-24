@@ -59,16 +59,16 @@ public enum ProductProperty {
                 errors.reject("Required field " + fieldName + "can not be empty.");
             }
             if (!isValueNull && property.minSize != null && value.toString().length() < property.minSize) {
-                errors.reject("Minimum length for " + fieldName + "  is " + property.minSize);
+                errors.reject("Minimum length for " + fieldName + "  is " + property.minSize + ". ");
             }
             if (!isValueNull && property.maxSize != null && value.toString().length() > property.maxSize) {
-                errors.reject("Maximum length for " + fieldName + " should be " + property.minSize);
+                errors.reject("Maximum length for " + fieldName + " should be " + property.minSize + ". ");
             }
             if (!isValueNull && property.minValue != null && ((BigDecimal) value).compareTo(property.minValue) < 0) {
-                errors.reject("Minimum allowed value for" + fieldName + " is " + property.minValue);
+                errors.reject("Minimum allowed value for" + fieldName + " is " + property.minValue + ". ");
             }
             if (!isValueNull && property.maxValue != null && ((BigDecimal) value).compareTo(property.maxValue) > 0) {
-                errors.reject("Maximum allowed value for " + fieldName + " is " + property.minValue);
+                errors.reject("Maximum allowed value for " + fieldName + " is " + property.minValue + ". ");
             }
         }
     }

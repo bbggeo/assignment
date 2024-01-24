@@ -14,4 +14,6 @@ public interface ClothingApparelRepository extends JpaRepository<ClothingApparel
     Page<ClothingApparel> findByType(ProductType type, Pageable pageable);
 
     List<ClothingApparel> findByName(String name);
+
+    List<ClothingApparel> findByNameAndSupplierIdAndColorAndEuSize(String name, Long supplierId, String color, String size);
 }

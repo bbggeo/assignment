@@ -39,7 +39,7 @@ public class ProductsCompositeService {
         ModelMapper mapper = new ModelMapper();
 
         if (type.getCorrespondingClass().equals(ClothingApparel.class)) {
-            products = productsService.searchClothing(type);
+            products = productsService.searchClothing(type, pageNo, pageSize);
             products.forEach(product -> retrievedItems.add(ProductMapper.mapClothingApparelToProductDTO(mapper, (ClothingApparel) product)));
         } else if (type.getCorrespondingClass().equals(Accessory.class)) {
 

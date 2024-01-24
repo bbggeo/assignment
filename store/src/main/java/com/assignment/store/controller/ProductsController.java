@@ -28,7 +28,7 @@ public class ProductsController {
     }
 
     @GetMapping()
-    public List<ProductDTO> getProducts(@RequestParam("type") ProductType type) throws Exception {
-        return productsCompositeService.getProducts(1, 1, type);
+    public List<ProductDTO> getProducts(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber, @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize, @RequestParam("type") ProductType type) throws Exception {
+        return productsCompositeService.getProducts(pageNumber, pageSize, type);
     }
 }

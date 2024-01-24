@@ -23,9 +23,6 @@ public class Product {
     @Column(name = "PRICE")
     protected BigDecimal price;
 
-    @Column(name = "MATERIAL_ID", insertable=false, updatable=false, nullable=false)
-    protected Long materialId;
-
     @Column(name = "DISCOUNT")
     protected BigDecimal discount;
 

@@ -8,12 +8,19 @@ import com.assignment.store.dto.product.ProductDTO;
 import com.assignment.store.service.ProductsService;
 import com.assignment.store.service.SupplierService;
 import com.assignment.store.util.enums.ProductType;
+import com.assignment.store.util.exception.FieldValidationException;
 import com.assignment.store.util.mapper.ProductMapper;
+import com.assignment.store.util.validator.ProductValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
+@Slf4j
 @Component
 public class ProductsCompositeService {
     @Autowired
@@ -22,7 +29,11 @@ public class ProductsCompositeService {
     @Autowired
     private SupplierService supplierService;
 
+    @Autowired
+    private ProductValidator productValidator;
+
     public ProductDTO saveProduct(ProductDTO productDTO) {
+        validate(productDTO);
         Supplier supplier = supplierService.findByName(productDTO.getSupplier());
         Product toSave = ProductMapper.mapToProduct(productDTO);
         toSave.setSupplierId(supplier.getId());
@@ -44,5 +55,21 @@ public class ProductsCompositeService {
             throw new Exception();
         }
         return entities;
+    }
+
+    private void validate(ProductDTO productDTO) {
+        BindingResult bindingResult = new BeanPropertyBindingResult(productDTO, ProductDTO.class.getName());
+        productValidator.validate(productDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            log.error("Validation failed for " + productDTO.getClass().getName());
+            String errorMessage = "The following validation rules failed: \n";
+            for (ObjectError err : bindingResult.getAllErrors()) {
+                for (String code : err.getCodes()) {
+                    errorMessage = errorMessage.concat(code + "\n");
+                }
+            }
+            log.error(errorMessage);
+            throw new FieldValidationException(errorMessage);
+        }
     }
 }

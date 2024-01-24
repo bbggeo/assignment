@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class ProductsService {
 
@@ -42,5 +40,11 @@ public class ProductsService {
         // start index is 0 for page number
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("name").ascending());
         return clothingRepository.findByType(type, pageable);
+    }
+
+    public Page<Accessory> searchAccessory(ProductType type, Integer pageNumber, Integer pageSize) {
+        // start index is 0 for page number
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("name").ascending());
+        return accessoryRepository.findByType(type, pageable);
     }
 }

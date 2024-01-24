@@ -6,6 +6,8 @@ import com.assignment.store.util.converters.ProductTypeConverter;
 import com.assignment.store.util.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
@@ -32,10 +34,14 @@ public class Product {
     @Column(name = "SUPPLIER_ID", insertable=false, updatable=false, nullable=false)
     protected Long supplierId;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name="SUPPLIER_ID")
     protected Supplier supplier;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name="MATERIAL_ID")
     protected Material material;

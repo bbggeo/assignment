@@ -3,16 +3,19 @@ package com.assignment.store.composite;
 import com.assignment.store.dao.Accessory;
 import com.assignment.store.dao.ClothingApparel;
 import com.assignment.store.dao.Product;
+import com.assignment.store.dao.staticdata.Material;
 import com.assignment.store.dao.thirdparty.Supplier;
 import com.assignment.store.dto.product.ProductDTO;
+import com.assignment.store.service.MaterialService;
 import com.assignment.store.service.ProductsService;
 import com.assignment.store.service.SupplierService;
 import com.assignment.store.util.enums.ProductType;
 import com.assignment.store.util.exception.FieldValidationException;
 import com.assignment.store.util.mapper.ProductMapper;
 import com.assignment.store.util.validator.ProductValidator;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -20,14 +23,20 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-@Slf4j
+import java.util.Optional;
+
 @Component
 public class ProductsCompositeService {
+
+    Logger logger = LoggerFactory.getLogger(ProductsCompositeService.class);
     @Autowired
     private ProductsService productsService;
 
     @Autowired
     private SupplierService supplierService;
+
+    @Autowired
+    private MaterialService materialService;
 
     @Autowired
     private ProductValidator productValidator;
@@ -48,8 +57,10 @@ public class ProductsCompositeService {
 
         if (type.getCorrespondingClass().equals(ClothingApparel.class)) {
             products = productsService.searchClothing(type, pageNo, pageSize);
-            entities = products.map(prod -> ProductMapper.mapClothingApparelToProductDTO(mapper, (ClothingApparel) prod));
+            entities = products.map(prod -> ProductMapper.mapProductDTO(mapper, (ClothingApparel) prod));
         } else if (type.getCorrespondingClass().equals(Accessory.class)) {
+            products = productsService.searchAccessory(type, pageNo, pageSize);
+            entities = products.map(prod -> ProductMapper.mapToProductDto((Product) prod));
 
         } else {
             throw new Exception();
@@ -61,12 +72,12 @@ public class ProductsCompositeService {
         BindingResult bindingResult = new BeanPropertyBindingResult(productDTO, ProductDTO.class.getName());
         productValidator.validate(productDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            log.error("Validation failed for " + productDTO.getClass().getName());
+            logger.error("Validation failed for " + productDTO.getClass().getName());
             String errorMessage = "The following validation rules failed: ";
             for (ObjectError err : bindingResult.getAllErrors()) {
                     errorMessage = errorMessage.concat(err.getCode());
             }
-            log.error(errorMessage);
+            logger.error(errorMessage);
             throw new FieldValidationException(errorMessage);
         }
     }

@@ -4,6 +4,8 @@ import com.assignment.store.util.enums.ProductType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+import java.util.Optional;
+
 @Converter(autoApply = true)
 public class ProductTypeConverter implements AttributeConverter<ProductType, String> {
     @Override
@@ -19,6 +21,7 @@ public class ProductTypeConverter implements AttributeConverter<ProductType, Str
         if(s == null) {
             return null;
         }
-        return ProductType.findByName(s);
+        Optional<ProductType> type = ProductType.findByName(s);
+        return type.get();
     }
 }

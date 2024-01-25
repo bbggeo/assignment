@@ -12,8 +12,10 @@ import com.assignment.store.service.SupplierService;
 import com.assignment.store.util.enums.ProductProperty;
 import com.assignment.store.util.enums.ProductType;
 import com.assignment.store.util.exception.FieldValidationException;
+import com.assignment.store.util.exception.InvalidDiscountException;
 import com.assignment.store.util.mapper.ProductMapper;
 import com.assignment.store.util.validator.ProductValidator;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+@Transactional
 @Component
 public class ProductsCompositeService {
 
@@ -67,7 +70,7 @@ public class ProductsCompositeService {
         return entities;
     }
 
-    public void applyDiscount(DiscountDTO discountDTO) {
+    public void applyDiscount(DiscountDTO discountDTO) throws InvalidDiscountException {
         ProductProperty.validateField(ProductProperty.DISCOUNT, discountDTO.getDiscountValue());
         productsService.applyDiscount(discountDTO);
     }
@@ -79,7 +82,7 @@ public class ProductsCompositeService {
             logger.error("Validation failed for " + productDTO.getClass().getName());
             String errorMessage = "The following validation rules failed: ";
             for (ObjectError err : bindingResult.getAllErrors()) {
-                errorMessage = errorMessage.concat(err.getDefaultMessage());
+                errorMessage = errorMessage.concat(err.getCode());
             }
             logger.error(errorMessage);
             throw new FieldValidationException(errorMessage);

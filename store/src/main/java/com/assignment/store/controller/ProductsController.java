@@ -20,7 +20,7 @@ public class ProductsController {
     }
 
     @PostMapping()
-    @Secured("ADMIN")
+    //@Secured("ADMIN")
     public ProductDTO save(@RequestBody ProductDTO productDTO) {
         return productsCompositeService.saveProduct(productDTO);
     }

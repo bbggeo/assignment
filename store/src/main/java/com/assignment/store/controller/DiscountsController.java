@@ -2,6 +2,7 @@ package com.assignment.store.controller;
 
 import com.assignment.store.composite.ProductsCompositeService;
 import com.assignment.store.dto.product.DiscountDTO;
+import com.assignment.store.util.exception.InvalidDiscountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -18,7 +19,7 @@ public class DiscountsController {
 
     //@Secured("PROMO_GUY")
     @PostMapping
-    public ResponseEntity<Boolean> applyDiscountToProduct(@RequestBody DiscountDTO appliedDiscount) {
+    public ResponseEntity<Boolean> applyDiscountToProduct(@RequestBody DiscountDTO appliedDiscount) throws InvalidDiscountException {
         productsCompositeService.applyDiscount(appliedDiscount);
         return ResponseEntity.ok(true);
     }

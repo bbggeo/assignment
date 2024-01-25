@@ -20,7 +20,11 @@ Abstraction: repository interfaces
 
 Available resources:
 
+PRODUCT CONTROLLER 
+
+
 1. Get products by type
+
 Request type: GET
 URL: http://localhost:8080/products
 Required request parameters: ProductType type
@@ -29,12 +33,24 @@ ResponseType: Page<ProductDTO>
 
 example: http://localhost:8080/products?type=RING
 
+
+
 2. Save product
+
 Request type: POST
 URL: http://localhost:8080/products
 Request body type: ClothingApparelDTO
 
-2. Update product
+
+
+3. Update product
 Request type: PUT
 URL: http://localhost:8080/products/{id}
 Request body type: ClothingApparelDTO
+
+
+DiscountController
+
+1. Apply discount by product type
+
+URL: http://localhost:8080/discounts

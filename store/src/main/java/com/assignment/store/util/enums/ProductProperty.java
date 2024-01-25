@@ -1,5 +1,6 @@
 package com.assignment.store.util.enums;
 
+import com.assignment.store.util.exception.InvalidDiscountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jmx.access.InvalidInvocationException;
@@ -98,12 +99,12 @@ public enum ProductProperty {
         return !isValueNull && property.minValue != null && ((BigDecimal) value).compareTo(property.minValue) < 0;
     }
 
-    public static void validateField(ProductProperty property, Object value) {
+    public static void validateField(ProductProperty property, Object value) throws InvalidDiscountException {
         boolean isValueNull = value == null;
         if (requiredConditionFails(property, isValueNull) || minValueConditionFails(property, value, isValueNull) || maxValueConditionFails(property, value, isValueNull)
             || minLengthConditionFails(property, value, isValueNull) || maxLengthConditionFails(property, value, isValueNull)) {
             logger.error("Validation failed for field " + property.getName());
-            throw new InvalidInvocationException("Supplied value failed validation conditions");
+            throw new InvalidDiscountException("Supplied value failed validation conditions");
         }
     }
 

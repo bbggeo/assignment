@@ -37,7 +37,7 @@ public class ExceptionHandlingConfiguration {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-        logger.error("Request: " + req.getRequestURL() + " raised " + ex);
+        logger.error("Request: " + req.getRequestURL() + " raised " + ex, ex);
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", ex);

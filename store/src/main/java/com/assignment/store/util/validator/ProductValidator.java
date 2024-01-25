@@ -61,7 +61,8 @@ public class ProductValidator implements Validator {
             if (conflictingItems.size() == 0) {
                 return;
             }
-            if (conflictingItems.size() > 1 || conflictingItems.get(0).getId() != productDTO.getId()) {
+            var maxSize = 1;
+            if (conflictingItems.size() > maxSize || conflictingItems.get(0).getId() != productDTO.getId()) {
                 errors.reject("A conflicting item with same name, supplier, color and size was found.");
             }
         }

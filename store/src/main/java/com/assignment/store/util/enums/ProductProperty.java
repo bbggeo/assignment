@@ -1,6 +1,11 @@
 package com.assignment.store.util.enums;
 
+import com.assignment.store.dto.product.ProductDTO;
+import org.springframework.jmx.access.InvalidInvocationException;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -57,23 +62,53 @@ public enum ProductProperty {
         if (propertyOptional.isPresent()) {
             ProductProperty property = propertyOptional.get();
             boolean isValueNull = value == null;
-            if (property.required && isValueNull) {
+            if (requiredConditionFails(property, isValueNull)) {
                 errors.reject(CustomErrorCodes.REQUIRED_FIELD.name(), "Required field " + fieldName + " can not be empty.");
             }
-            if (!isValueNull && property.minSize != null && value.toString().length() < property.minSize) {
+            if (minLengthConditionFails(property, value, isValueNull)) {
                 errors.reject(CustomErrorCodes.MINIMUM_LENGTH_NOT_COMPLIANT.name(), "Minimum length for " + fieldName + " is " + property.minSize + ".");
             }
-            if (!isValueNull && property.maxSize != null && value.toString().length() > property.maxSize) {
+            if (maxLengthConditionFails(property, value, isValueNull)) {
                 errors.reject(CustomErrorCodes.MAXIMUM_LENGTH_EXCEEDED.name(), "Maximum length for " + fieldName + " should be " + property.minSize + ".");
             }
-            if (!isValueNull && property.minValue != null && ((BigDecimal) value).compareTo(property.minValue) < 0) {
+            if (minValueConditionFails(property, value, isValueNull)) {
                 errors.reject(CustomErrorCodes.VALUE_OUT_OF_BOUNDS.name(), "Minimum allowed value for" + fieldName + " is " + property.minValue + ".");
             }
-            if (!isValueNull && property.maxValue != null && ((BigDecimal) value).compareTo(property.maxValue) > 0) {
+            if (maxValueConditionFails(property, value, isValueNull)) {
                 errors.reject(CustomErrorCodes.VALUE_OUT_OF_BOUNDS.name(), "Maximum allowed value for " + fieldName + " is " + property.maxValue + ".");
             }
         }
     }
+
+    private static boolean requiredConditionFails(ProductProperty property, boolean isValueNull) {
+        return property.required && isValueNull;
+    }
+
+    private static boolean minLengthConditionFails(ProductProperty property, Object value, boolean isValueNull) {
+        return !isValueNull && property.minSize != null && value.toString().length() < property.minSize;
+    }
+
+    private static boolean maxLengthConditionFails(ProductProperty property, Object value, boolean isValueNull) {
+        return !isValueNull && property.minSize != null && value.toString().length() > property.maxSize;
+    }
+
+    private static boolean maxValueConditionFails(ProductProperty property, Object value, boolean isValueNull) {
+        return !isValueNull && property.maxValue != null && ((BigDecimal) value).compareTo(property.maxValue) > 0;
+    }
+
+    private static boolean minValueConditionFails(ProductProperty property, Object value, boolean isValueNull) {
+        return !isValueNull && property.minValue != null && ((BigDecimal) value).compareTo(property.minValue) < 0;
+    }
+
+    public static void validateField(ProductProperty property, Object value) {
+        boolean isValueNull = value == null;
+        if (requiredConditionFails(property, isValueNull) || minValueConditionFails(property, value, isValueNull) || maxValueConditionFails(property, value, isValueNull)
+            || minLengthConditionFails(property, value, isValueNull) || maxLengthConditionFails(property, value, isValueNull)) {
+            throw new InvalidInvocationException("Supplied value failed validation conditions");
+        }
+    }
+
+
 
 }
 

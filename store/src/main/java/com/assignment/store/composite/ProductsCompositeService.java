@@ -5,10 +5,12 @@ import com.assignment.store.dao.ClothingApparel;
 import com.assignment.store.dao.Product;
 import com.assignment.store.dao.staticdata.Material;
 import com.assignment.store.dao.thirdparty.Supplier;
+import com.assignment.store.dto.product.DiscountDTO;
 import com.assignment.store.dto.product.ProductDTO;
 import com.assignment.store.service.MaterialService;
 import com.assignment.store.service.ProductsService;
 import com.assignment.store.service.SupplierService;
+import com.assignment.store.util.enums.ProductProperty;
 import com.assignment.store.util.enums.ProductType;
 import com.assignment.store.util.exception.FieldValidationException;
 import com.assignment.store.util.mapper.ProductMapper;
@@ -23,6 +25,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Component
@@ -68,6 +71,11 @@ public class ProductsCompositeService {
         return entities;
     }
 
+    public void applyDiscount(DiscountDTO discountDTO) {
+        ProductProperty.validateField(ProductProperty.DISCOUNT, discountDTO.getDiscountValue());
+        productsService.applyDiscount(discountDTO);
+    }
+
     private void validate(ProductDTO productDTO) {
         BindingResult bindingResult = new BeanPropertyBindingResult(productDTO, ProductDTO.class.getName());
         productValidator.validate(productDTO, bindingResult);
@@ -75,7 +83,7 @@ public class ProductsCompositeService {
             logger.error("Validation failed for " + productDTO.getClass().getName());
             String errorMessage = "The following validation rules failed: ";
             for (ObjectError err : bindingResult.getAllErrors()) {
-                    errorMessage = errorMessage.concat(err.getDefaultMessage());
+                errorMessage = errorMessage.concat(err.getDefaultMessage());
             }
             logger.error(errorMessage);
             throw new FieldValidationException(errorMessage);

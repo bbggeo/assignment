@@ -28,7 +28,7 @@ public class SecurityConfiguration
     public UserDetailsService userDetailsService() throws Exception {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("password").roles("USER").build());
+        manager.createUser(users.username("finance").password("password").roles("PROMO_GUY").build());
         manager.createUser(users.username("admin").password("password").roles("USER","ADMIN").build());
         return manager;
     }

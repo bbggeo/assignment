@@ -11,6 +11,7 @@ import java.util.List;import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface ClothingApparelRepository extends JpaRepository<ClothingApparel, Long> {
+    List<ClothingApparel> findByType(ProductType type);
     Page<ClothingApparel> findByType(ProductType type, Pageable pageable);
 
     List<ClothingApparel> findByName(String name);

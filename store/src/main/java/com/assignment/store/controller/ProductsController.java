@@ -15,7 +15,7 @@ public class ProductsController {
     private ProductsCompositeService productsCompositeService;
 
     @PutMapping(value = "/{id}")
-    public ProductDTO updateClothingApparel(@PathVariable("id") Long id, @RequestBody ProductDTO productDTO) {
+    public ProductDTO updateProduct(@PathVariable("id") Long id, @RequestBody ProductDTO productDTO) {
         return productsCompositeService.saveProduct(productDTO);
     }
 

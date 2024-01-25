@@ -3,7 +3,6 @@ package com.assignment.store.composite;
 import com.assignment.store.dao.Accessory;
 import com.assignment.store.dao.ClothingApparel;
 import com.assignment.store.dao.Product;
-import com.assignment.store.dao.staticdata.Material;
 import com.assignment.store.dao.thirdparty.Supplier;
 import com.assignment.store.dto.product.DiscountDTO;
 import com.assignment.store.dto.product.ProductDTO;
@@ -24,9 +23,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @Component
 public class ProductsCompositeService {

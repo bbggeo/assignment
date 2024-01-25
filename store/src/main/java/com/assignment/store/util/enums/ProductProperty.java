@@ -1,11 +1,9 @@
 package com.assignment.store.util.enums;
 
-import com.assignment.store.dto.product.ProductDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jmx.access.InvalidInvocationException;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -24,7 +22,7 @@ public enum ProductProperty {
     private BigDecimal minValue;
     private BigDecimal maxValue;
     private boolean required;
-
+    static Logger logger = LoggerFactory.getLogger(ProductProperty.class);
 
     private ProductProperty(String name) {
         this.name = name;
@@ -104,6 +102,7 @@ public enum ProductProperty {
         boolean isValueNull = value == null;
         if (requiredConditionFails(property, isValueNull) || minValueConditionFails(property, value, isValueNull) || maxValueConditionFails(property, value, isValueNull)
             || minLengthConditionFails(property, value, isValueNull) || maxLengthConditionFails(property, value, isValueNull)) {
+            logger.error("Validation failed for field " + property.getName());
             throw new InvalidInvocationException("Supplied value failed validation conditions");
         }
     }
